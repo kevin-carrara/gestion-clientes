@@ -1,0 +1,59 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /technical-test
+    session:
+      cookie:
+        name: TECHNICALTESTAUTH2SESSION
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 32KB
+  jetty:
+    threads:
+      acceptors: 200
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: ${DB_PLATFORM}
+  application:
+    name: pin_app
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+org:
+  apache:
+    coyote:
+      http2:
+        Http2Protocol:
+          maxConcurrentStreamExecution: 200
