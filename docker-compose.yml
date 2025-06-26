@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   pin_app:
@@ -27,3 +27,26 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 10s
       retries: 10
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    hostname: kafka
+    container_name: kafka
+    ports:
+       - "9092:9092"
+    environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT"
+        KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

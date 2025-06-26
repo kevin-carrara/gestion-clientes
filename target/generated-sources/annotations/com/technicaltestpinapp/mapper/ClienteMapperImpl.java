@@ -3,12 +3,13 @@ package com.technicaltestpinapp.mapper;
 import com.technicaltestpinapp.dto.ClienteDto;
 import com.technicaltestpinapp.dto.ClienteResponseMuerte;
 import com.technicaltestpinapp.model.Cliente;
+import java.time.LocalDate;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-29T09:50:59-0300",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.12 (Azul Systems, Inc.)"
+    date = "2025-06-25T15:51:54-0300",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.2 (Oracle Corporation)"
 )
 public class ClienteMapperImpl implements ClienteMapper {
 
@@ -18,15 +19,23 @@ public class ClienteMapperImpl implements ClienteMapper {
             return null;
         }
 
-        ClienteDto clienteDto = new ClienteDto();
+        String nombre = null;
+        String apellido = null;
+        LocalDate fechaNacimiento = null;
+        String genero = null;
+        Double altura = null;
+        Double peso = null;
+        boolean fumador = false;
 
-        clienteDto.setNombre( clienteEntity.getNombre() );
-        clienteDto.setApellido( clienteEntity.getApellido() );
-        clienteDto.setFechaNacimiento( clienteEntity.getFechaNacimiento() );
-        clienteDto.setGenero( clienteEntity.getGenero() );
-        clienteDto.setAltura( clienteEntity.getAltura() );
-        clienteDto.setPeso( clienteEntity.getPeso() );
-        clienteDto.setFumador( clienteEntity.isFumador() );
+        nombre = clienteEntity.getNombre();
+        apellido = clienteEntity.getApellido();
+        fechaNacimiento = clienteEntity.getFechaNacimiento();
+        genero = clienteEntity.getGenero();
+        altura = clienteEntity.getAltura();
+        peso = clienteEntity.getPeso();
+        fumador = clienteEntity.isFumador();
+
+        ClienteDto clienteDto = new ClienteDto( nombre, apellido, fechaNacimiento, genero, altura, peso, fumador );
 
         return clienteDto;
     }
@@ -60,16 +69,27 @@ public class ClienteMapperImpl implements ClienteMapper {
             return null;
         }
 
-        ClienteResponseMuerte clienteResponseMuerte = new ClienteResponseMuerte();
+        String nombre = null;
+        String apellido = null;
+        LocalDate fechaNacimiento = null;
+        String genero = null;
+        double altura = 0.0d;
+        double peso = 0.0d;
+        boolean fumador = false;
+        Integer edad = null;
 
-        clienteResponseMuerte.setNombre( cliente.getNombre() );
-        clienteResponseMuerte.setApellido( cliente.getApellido() );
-        clienteResponseMuerte.setFechaNacimiento( cliente.getFechaNacimiento() );
-        clienteResponseMuerte.setGenero( cliente.getGenero() );
-        clienteResponseMuerte.setAltura( cliente.getAltura() );
-        clienteResponseMuerte.setPeso( cliente.getPeso() );
-        clienteResponseMuerte.setFumador( cliente.isFumador() );
-        clienteResponseMuerte.setEdad( cliente.getEdad() );
+        nombre = cliente.getNombre();
+        apellido = cliente.getApellido();
+        fechaNacimiento = cliente.getFechaNacimiento();
+        genero = cliente.getGenero();
+        altura = cliente.getAltura();
+        peso = cliente.getPeso();
+        fumador = cliente.isFumador();
+        edad = cliente.getEdad();
+
+        LocalDate fechaProbableMuerte = null;
+
+        ClienteResponseMuerte clienteResponseMuerte = new ClienteResponseMuerte( nombre, apellido, fechaNacimiento, genero, altura, peso, fumador, edad, fechaProbableMuerte );
 
         return clienteResponseMuerte;
     }

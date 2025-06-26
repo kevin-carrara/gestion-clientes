@@ -5,6 +5,7 @@ import com.technicaltestpinapp.dto.ClienteDto;
 import com.technicaltestpinapp.dto.ClienteResponseKpi;
 import com.technicaltestpinapp.dto.ClienteResponseMuerte;
 import com.technicaltestpinapp.service.ClientService;
+import com.technicaltestpinapp.service.kafka.KafkaProducerService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,9 @@ public class ClienteController {
     @Autowired
     private final ClientService clienteService;
 
+    private final KafkaProducerService kafkaProducerService;
+
+
     @PostMapping("/creacliente")
     @Operation(summary = "crear clientes")
     @ApiResponses(value = {
@@ -32,7 +36,14 @@ public class ClienteController {
             @ApiResponse(code = 401, message = "Full authentication is required to access this resource"),
     })
     public ResponseEntity<ClienteDto> crearCliente(@Valid @RequestBody ClienteDto clienteDto){
-        return ResponseEntity.ok(clienteService.createCliente(clienteDto));
+
+
+        ClienteDto response = clienteService.createCliente(clienteDto);
+
+        String message = String.format("Cliente creado: %s %s", response.getNombre(), response.getApellido());
+        kafkaProducerService.sendMessage(message);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/kpideclientes")
@@ -60,8 +71,6 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.getClientList());
 
     }
-
-
 
 
 }
